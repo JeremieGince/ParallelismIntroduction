@@ -1,17 +1,19 @@
 import multiprocessing as mp
+import time
 import typing
 from threading import Thread
-import time
 
+from sensor_loggers import SensorLogger
 from sensors.sensor import Sensor
 
 
 class App:
 	def __init__(self, sensors: typing.List[Sensor], seconds_per_day: int = 100_000):
 		self.sensors = sensors
+		self.sensor_loggers = [SensorLogger.new(sensor) for sensor in sensors]
 		self.seconds_per_day = seconds_per_day
 		self.done_date = []
-		self.sensor_to_thread = {}
+		self.logger_to_thread = {}
 		self.processes = {}
 
 	def run(self, n_day='all'):
@@ -48,10 +50,10 @@ class App:
 		:param date:
 		:return:
 		"""
-		for sensor in self.sensors:
-			sensor.set_date(date)
-			self.sensor_to_thread[sensor] = Thread(target=sensor.read_and_log, daemon=True)
-			self.sensor_to_thread[sensor].start()
+		for logger in self.sensor_loggers:
+			logger.set_date(date)
+			self.logger_to_thread[logger] = Thread(target=logger.read_and_log, daemon=True)
+			self.logger_to_thread[logger].start()
 
 	def stop_day(self, date):
 		self.done_date.append(date)
@@ -59,7 +61,7 @@ class App:
 		self.stop_predictor()
 
 	def stop_sensors(self):
-		for sensor, thread in self.sensor_to_thread.items():
+		for sensor, thread in self.logger_to_thread.items():
 			thread.join()
 
 	def stop_predictor(self):
@@ -71,9 +73,12 @@ class App:
 		#TODO:
 		- read and add the data of the previous day to the training set.
 		- re-train the model.
-		- 
+		-
 
 		:param day:
 		:return:
 		"""
 		raise NotImplementedError()
+
+	def log_sensor_data(self, sensor):
+		pass

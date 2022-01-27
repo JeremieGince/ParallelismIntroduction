@@ -17,4 +17,4 @@ class CleanAustinWeather:
 
 if __name__ == '__main__':
 	c = CleanAustinWeather()
-	c.clean(None)
+	c.clean("test.csv")

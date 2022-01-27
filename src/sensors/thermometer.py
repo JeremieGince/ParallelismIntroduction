@@ -1,7 +1,4 @@
-from sensor import Sensor
-import numpy as np
-import pandas as pd
-import os
+from .sensor import Sensor
 
 
 class Thermometer(Sensor):
