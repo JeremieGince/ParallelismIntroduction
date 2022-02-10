@@ -76,3 +76,7 @@ class SensorLogger(Thread):
 			self.mean = (self.count * self.mean + val) / (self.count + 1)
 			self.count += 1
 			self.update_log_file()
+	
+	def join(self, timeout=None):
+		self._stop_event.set()
+		super(SensorLogger, self).join(timeout)
