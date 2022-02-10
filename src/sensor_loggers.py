@@ -1,6 +1,6 @@
 import multiprocessing as mp
 import os
-from threading import Thread
+from threading import Thread, Event
 from typing import Union
 
 import numpy as np
@@ -17,7 +17,7 @@ class SensorLogger(Thread):
 		super().__init__()
 		self._sensor = sensor
 		self._date = None
-		self._stop_event = mp.Event()
+		self._stop_event = Event()
 		self.lock = lock
 		# counter
 		self.count = 0
