@@ -56,7 +56,9 @@ class SensorLogger(Thread):
 	def update_log_file(self):
 		with self.lock:
 			df = pd.read_csv(SensorLogger.get_data_filename(), index_col=['Date'])
-			df.loc[pd.to_datetime(self._date), self._sensor.columns_names] = [self.min, self.max, self.mean]
+			date = str(pd.to_datetime(self._date).date())
+			print(date)
+			df.loc[date, self._sensor.columns_names] = [self.min, self.max, self.mean]
 			df.to_csv(SensorLogger.get_data_filename())
 
 	def run(self):
