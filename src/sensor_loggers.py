@@ -14,7 +14,14 @@ class SensorLogger(Thread):
     sensors_data_filename = "datalog.csv"
 
     def __init__(self, sensor: Sensor, lock: Union[mp.RLock, mp.Lock]):
-        super().__init__()
+        """
+        Instantiateur de la classe SensorLogger. Hérite de Thread pour que les objets créés soient eux-mêmes des
+        Threads en quelque sorte.
+        :param sensor: Senseur que le SensorLogger courant contrôle.
+        :param lock: Objet `Lock` de multiprocessing (puisqu'il se déplace de process en process) pour verrouiller
+        l'accès aux ressources / code.
+        """
+        super(SensorLogger, self).__init__()
         self._sensor = sensor
         self._date = None
         self._stop_event = Event()
@@ -29,9 +36,17 @@ class SensorLogger(Thread):
 
     @staticmethod
     def get_data_filename():
+        """
+        Méthode statique qui permet d'accéder au fichier où est stocké les informations obtenues par les senseurs.
+        :return: Le chemin pour accéder au fichier de stockage.
+        """
         return f"{SensorLogger.sensors_data_folder}/{SensorLogger.sensors_data_filename}"
 
     def set_date(self, date):
+        """
+        Méthode permettant de changer la date courante pour le senseur.
+        :param date: Date courante.
+        """
         self._date = date
         self._sensor.set_date(date)
 
