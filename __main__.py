@@ -3,7 +3,6 @@ import src.sensors.dewpoint as dp
 import src.sensors.humidity as hm
 import src.sensors.seaPressure as sp
 from src.app import App
-import multiprocessing as mp
 
 if __name__ == '__main__':
 	app = App(

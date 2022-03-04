@@ -16,7 +16,7 @@ class SensorLogger(Thread):
     def __init__(self, sensor: Sensor, lock: Union[mp.RLock, mp.Lock]):
         """
         Instantiateur de la classe SensorLogger. Hérite de Thread pour que les objets créés soient eux-mêmes des
-        Threads en quelque sorte.
+        threads en quelque sorte.
         :param sensor: Senseur que le SensorLogger courant contrôle.
         :param lock: Objet `Lock` de multiprocessing (puisqu'il se déplace de process en process) pour verrouiller
         l'accès aux ressources / code.
@@ -63,7 +63,6 @@ class SensorLogger(Thread):
 
             for col in self._sensor.columns_names:
                 if col not in df.columns:
-                    print("Ici")
                     df.insert(len(df.columns), col, np.NaN)
             df.to_csv(SensorLogger.get_data_filename(), index=False)
 
