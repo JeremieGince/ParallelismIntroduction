@@ -1,8 +1,8 @@
-import src.sensors.thermometer as th
-import src.sensors.dewpoint as dp
-import src.sensors.humidity as hm
-import src.sensors.seaPressure as sp
-from src.app import App
+import exercice.sensors.thermometer as th
+import exercice.sensors.dewpoint as dp
+import exercice.sensors.humidity as hm
+import exercice.sensors.seaPressure as sp
+from exercice.app import App
 
 if __name__ == '__main__':
 	app = App(
