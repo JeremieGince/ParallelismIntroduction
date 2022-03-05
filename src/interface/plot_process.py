@@ -12,7 +12,7 @@ class PlotProcess(mp.Process):
 	TODO
 	"""
 	def __init__(self, sensors, lock, log_file, date, update_dt: float = 1.0):
-		super().__init__()
+		super(PlotProcess, self).__init__()
 		self._sensors = sensors
 		self._lock = lock
 		self._close_event = mp.Event()
