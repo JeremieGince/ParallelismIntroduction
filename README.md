@@ -68,7 +68,9 @@ méthodes qui lancent ce type d'erreur.
 
 ## Références
 - Pour plus d'information sur comment utiliser git:
-    - [TutorielPython-Manuel](https://github.com/JeremieGince/TutorielPython-Manuel/tree/master/Cycle-de-developpement-avec-git)
+    - [TutorielPython-Manuel/git](https://github.com/JeremieGince/TutorielPython-Manuel/tree/master/Cycle-de-developpement-avec-git)
+- Pour plus d'information sur comment créer un environnement virtuel:
+    - [TutorielPython-Manuel/Environments](https://github.com/JeremieGince/TutorielPython-Manuel/tree/master/Environments)
 - Si vous désirez avoir des ressources au niveau de l'affichage avec python:
   - [Atelier de visualisation du ProgFest](https://github.com/rem657/AtelierVisualisation)
 - Pour plus d'information sur le parralélisme avec python:
