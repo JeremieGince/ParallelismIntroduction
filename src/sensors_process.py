@@ -5,7 +5,7 @@ from .sensor_loggers import SensorLogger
 
 class SensorsProcess(mp.Process):
 	def __init__(self, sensors, lock, date):
-		super().__init__()
+		super(SensorsProcess, self).__init__()
 		self.sensors = sensors
 		self.lock = lock
 		self.date = date
