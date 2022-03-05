@@ -1,17 +1,40 @@
 import multiprocessing as mp
 import time
+from typing import List, Union
 
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+from src.sensors.sensor import Sensor
+
 
 class PlotProcess(mp.Process):
 	"""
-	TODO
+	TODO: Objet héritant de mp.Processus servant à afficher les données de SensorLogger.get_data_filename() en
+			temps réel.
+
+			Tips: Utilisez mp.Lock afin de s'assurer de ne pas corrompe le fichier en l'ouvrant/le manipulant en
+			même temps qu'un autre processus.
 	"""
-	def __init__(self, sensors, lock, log_file, date, update_dt: float = 1.0):
+	def __init__(
+			self,
+			sensors: List[Sensor],
+			lock: Union[mp.Lock, mp.RLock],
+			log_file: str,
+			date: str,
+			update_dt: float = 1.0
+	):
+		"""
+		Constructeur de PlotProcess.
+
+		:param sensors: Liste des senseurs.
+		:param lock: La serrure utilisée par les autres processus.
+		:param log_file: Le nom/path du fichier contenant les données des senseurs courants.
+		:param date: La date courante.
+		:param update_dt: Le temps entre deux mises à jour du graphique.
+		"""
 		super(PlotProcess, self).__init__()
 		self._sensors = sensors
 		self._lock = lock
@@ -24,6 +47,12 @@ class PlotProcess(mp.Process):
 		self._dates = None
 
 	def run(self):
+		"""
+		TODO:
+		Crée le graphique.
+		Lance la boucle de mises à jour du graphique.
+		:return: None
+		"""
 		can_plot = False
 		while not can_plot and not self._close_event.is_set():
 			if os.path.exists(self._log_file):
@@ -41,6 +70,10 @@ class PlotProcess(mp.Process):
 			plt.pause(self.update_dt)
 
 	def create_plot(self):
+		"""
+		Crée le graphique contenant k subplots où k est le nombre de senseurs.
+		:return: la figure
+		"""
 		self.sensor_to_ax.clear()
 		self.sensor_to_lines.clear()
 
@@ -81,8 +114,13 @@ class PlotProcess(mp.Process):
 			self.sensor_to_lines[sensor] = dict(low=low_line, high=high_line, avg=avg_line)
 		for i in range(len(self._sensors), len(axes)):
 			axes[i].axis('off')
+		return figure
 
 	def update_plot(self):
+		"""
+		Met à jour le graphique contenant les données des senseurs.
+		:return: None
+		"""
 		with self._lock:
 			df = pd.read_csv(self._log_file, index_col="Date")
 		for i, sensor in enumerate(self._sensors):
@@ -96,6 +134,10 @@ class PlotProcess(mp.Process):
 		plt.draw()
 
 	def join(self, *args, **kwargs):
+		"""
+		Set le close event.
+		Join le processus courant.
+		"""
 		self._close_event.set()
-		super(PlotProcess, self).join(*args, **kwargs)
+		return super(PlotProcess, self).join(*args, **kwargs)
 
