@@ -24,8 +24,14 @@ class PlotProcess(mp.Process):
 		self.X = None
 
 	def run(self):
-		while not os.path.exists(self._log_file) and not self._close_event.is_set():
-			time.sleep(self.update_dt)
+		can_plot = False
+		while not can_plot and not self._close_event.is_set():
+			if os.path.exists(self._log_file):
+				try:
+					pd.read_csv(self._log_file, index_col="Date")
+					can_plot = True
+				except:
+					time.sleep(self.update_dt)
 
 		self.create_plot()
 		plt.legend()
