@@ -55,6 +55,7 @@ class PlotProcess(mp.Process):
 		self._dates = df.index.tolist()
 		if self._date not in self._dates:
 			self._dates.append(self._date)
+
 		for i, sensor in enumerate(self._sensors):
 			axes[i].set_title(sensor.name)
 			axes[i].set_ylabel(sensor.units)
