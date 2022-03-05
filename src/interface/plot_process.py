@@ -30,7 +30,7 @@ class PlotProcess(mp.Process):
 				try:
 					pd.read_csv(self._log_file, index_col="Date")
 					can_plot = True
-				except:
+				except Exception:
 					time.sleep(self.update_dt)
 
 		self.create_plot()
