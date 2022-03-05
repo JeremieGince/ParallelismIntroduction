@@ -1,5 +1,5 @@
 import time
-from multiprocessing import Lock, RLock, Event
+from multiprocessing import Lock, RLock, Event, Process
 from typing import Union
 
 import pandas as pd
@@ -7,8 +7,9 @@ import pandas as pd
 from src.sensor_loggers import SensorLogger
 
 
-class WeatherPredictor:
+class WeatherPredictor(Process):
 	def __init__(self, lock: Union[RLock, Lock], done_dates: list = None):
+		super().__init__()
 		self._done_dates = done_dates if done_dates is not None else []
 		self._date = None
 		self.lock = lock
