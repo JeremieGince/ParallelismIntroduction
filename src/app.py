@@ -16,8 +16,7 @@ class App:
 		:param seconds_per_day: Nombre de secondes pour (simuler) une journée.
 		"""
 		self.sensors = sensors
-		self.sensors_lock = mp.RLock()
-		self.weather_predictor = WeatherPredictor(self.sensors_lock)
+		self._lock = mp.RLock()
 		self.seconds_per_day = seconds_per_day
 		self.done_date = list()
 		self.sensors_process = None
@@ -44,7 +43,7 @@ class App:
 		:param date:
 		:return:
 		"""
-		self.sensors_process = SensorsProcess(self.sensors, self.sensors_lock, date)
+		self.sensors_process = SensorsProcess(self.sensors, self._lock, date)
 		self.sensors_process.start()
 
 	def stop_day(self, date):
@@ -65,20 +64,3 @@ class App:
 		self.sensors_process.kill()
 		self.sensors_process.close()
 
-	def start_predictor(self, date):
-		"""
-		#TODO:
-		- read and add the data of the previous day to the training set.
-		- re-train the model.
-		-
-
-		:param date:
-		:return:
-		"""
-		# self.weather_predictor.set_date(date)
-		# self.weather_predictor.set_done_date(self.done_date)
-		# self.weather_predictor.run()
-		pass
-
-	def log_sensor_data(self, sensor):
-		pass
