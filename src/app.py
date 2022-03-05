@@ -25,7 +25,12 @@ class App:
 		self.sensors_process = None
 		self.plot_process = None
 
-	def run(self, n_day='all'):
+	def run(self, n_day: typing.Union[int, str] = 'all'):
+		"""
+		Méthode permettant de simuler plusieurs journées. Appelle à l'interne `run_single_day`.
+		:param n_day: Entier ou "all" (pour toutes les journées disponibles).
+		:return: Rien
+		"""
 		with self._lock:
 			dates = pd.read_csv(Sensor.rawData, index_col="Date").index.to_numpy()
 		if n_day == 'all':
@@ -33,11 +38,11 @@ class App:
 		for date in dates[:n_day]:
 			self.run_single_day(date)
 
-	def run_single_day(self, date):
+	def run_single_day(self, date: str):
 		"""
 		Méthode permettant de simuler une seule journée. Démarre la journée, attend le temps de simuler la journée,
 		puis termine la journée.
-		:param date: date de la journée à simuler.
+		:param date: date de la journée à simuler en format "AAAA-MM-JJ".
 		:return:Rien.
 		"""
 		print(f"Start day - {date}")
@@ -46,12 +51,13 @@ class App:
 		print(f"Stop day - {date}")
 		self.stop_day(date)
 
-	def start_day(self, date):
+	def start_day(self, date: str):
 		"""
 		TODO
-		run start_sensors and start_predictor in multiprocessing
-		:param date:
-		:return:
+		Méthode permettant de démarrer la journée. On doit premièrement créer le processus de senseurs, puis celui
+		qui permet l'affichage en temps réel.
+		:param date: Date de la journée courante en format "AAAA-MM-JJ".
+		:return: Rien
 		"""
 		self.sensors_process = SensorsProcess(self.sensors, self._lock, date)
 		self.sensors_process.start()
@@ -64,10 +70,10 @@ class App:
 		)
 		self.plot_process.start()
 
-	def stop_day(self, date):
+	def stop_day(self, date: str):
 		"""
-		Méthode permettant d'arrêter le processus gérant les threads (i.e. senseurs).
-		:param date: Date de la journée à simuler.
+		Méthode permettant d'arrêter les processus démarrés en début de journée.
+		:param date: Date de la journée à simuler en format "AAAA-MM-JJ".
 		:return: Rien
 		"""
 		self.done_date.append(date)
@@ -76,7 +82,8 @@ class App:
 	def stop_processes(self):
 		"""
 		TODO
-		Méthode permettant d'arrêter le prcessus gérant les threads.
+		Méthode permettant d'arrêter le processus gérant les threads, ainsi que celui gérant l'affichage en temps réel.
+		On doit les joindre, les tuer et les fermer.
 		:return: Rien
 		"""
 		self.sensors_process.join()
@@ -86,4 +93,3 @@ class App:
 		self.plot_process.join()
 		self.plot_process.kill()
 		self.plot_process.close()
-
