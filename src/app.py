@@ -3,7 +3,6 @@ import time
 import typing
 
 from .sensors.sensor import Sensor
-from src.weather_predictor.weather_predictor import WeatherPredictor
 from .sensors_process import SensorsProcess
 
 
