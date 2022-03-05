@@ -9,4 +9,4 @@ if __name__ == '__main__':
 		sensors=[th.Thermometer(0), dp.DewPointSensor(1), hm.HumiditySensor(2), sp.SeaLevelPressure(3)],
 		seconds_per_day=10,
 	)
-	app.run_single_day("2013-12-21")
+	app.run(n_day=5)

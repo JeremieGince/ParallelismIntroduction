@@ -12,6 +12,10 @@ class SensorsProcess(mp.Process):
 		self.exit_event = mp.Event()
 
 	def run(self):
+		"""
+		TODO
+		:return:
+		"""
 		sensor_loggers = [SensorLogger(sensor, self.lock) for sensor in self.sensors]
 		for logger in sensor_loggers:
 			logger.set_date(self.date)

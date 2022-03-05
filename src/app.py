@@ -2,6 +2,10 @@ import multiprocessing as mp
 import time
 import typing
 
+import pandas as pd
+
+from .interface.plot_process import PlotProcess
+from .sensor_loggers import SensorLogger
 from .sensors.sensor import Sensor
 from .sensors_process import SensorsProcess
 
@@ -19,9 +23,15 @@ class App:
 		self.seconds_per_day = seconds_per_day
 		self.done_date = list()
 		self.sensors_process = None
+		self.plot_process = None
 
 	def run(self, n_day='all'):
-		raise NotImplementedError()
+		with self._lock:
+			dates = pd.read_csv(Sensor.rawData, index_col="Date").index.to_numpy()
+		if n_day == 'all':
+			n_day = len(dates)
+		for date in dates[:n_day]:
+			self.run_single_day(date)
 
 	def run_single_day(self, date):
 		"""
@@ -38,12 +48,21 @@ class App:
 
 	def start_day(self, date):
 		"""
+		TODO
 		run start_sensors and start_predictor in multiprocessing
 		:param date:
 		:return:
 		"""
 		self.sensors_process = SensorsProcess(self.sensors, self._lock, date)
 		self.sensors_process.start()
+
+		self.plot_process = PlotProcess(
+			self.sensors,
+			self._lock,
+			log_file=SensorLogger.get_data_filename(),
+			date=date
+		)
+		self.plot_process.start()
 
 	def stop_day(self, date):
 		"""
@@ -56,10 +75,15 @@ class App:
 
 	def stop_processes(self):
 		"""
+		TODO
 		Méthode permettant d'arrêter le prcessus gérant les threads.
 		:return: Rien
 		"""
 		self.sensors_process.join()
 		self.sensors_process.kill()
 		self.sensors_process.close()
+
+		self.plot_process.join()
+		self.plot_process.kill()
+		self.plot_process.close()
 

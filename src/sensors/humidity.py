@@ -7,8 +7,8 @@ from .sensor import Sensor
 
 class HumiditySensor(Sensor):
 
-    def __init__(self, sensor_id: int, name="humiditySensor"):
-        super(HumiditySensor, self).__init__(sensor_id, name)
+    def __init__(self, sensor_id: int, name="humiditySensor", units: str = 'Humidity [%]'):
+        super(HumiditySensor, self).__init__(sensor_id, name, units=units)
         self.acquisition_time = 0.1
 
     @property

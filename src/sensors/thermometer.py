@@ -6,8 +6,8 @@ from .sensor import Sensor
 
 
 class Thermometer(Sensor):
-    def __init__(self, sensor_id: int, name="thermometer"):
-        super(Thermometer, self).__init__(sensor_id, name=name)
+    def __init__(self, sensor_id: int, name="thermometer", units='Temperature [${}^\circ F$]'):
+        super(Thermometer, self).__init__(sensor_id, name=name, units=units)
         self.acquisition_time = 0.1
 
     @property

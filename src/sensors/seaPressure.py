@@ -7,8 +7,8 @@ from .sensor import Sensor
 
 class SeaLevelPressure(Sensor):
 
-    def __init__(self, sensor_id: int, name="seaLevelPressure"):
-        super(SeaLevelPressure, self).__init__(sensor_id, name)
+    def __init__(self, sensor_id: int, name="seaLevelPressure", units='Pressure [bar]'):
+        super(SeaLevelPressure, self).__init__(sensor_id, name, units=units)
         self.acquisition_time = 0.1
 
     @property

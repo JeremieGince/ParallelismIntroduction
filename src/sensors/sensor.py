@@ -1,9 +1,10 @@
 class Sensor:
 	rawData = "./data/archive/austin_weather.csv"
 
-	def __init__(self, sensor_id: int, name: str):
+	def __init__(self, sensor_id: int, name: str, units: str = '-'):
 		self.sensor_id = sensor_id
 		self.name = name
+		self.units = units
 		self._date = None
 
 	@property

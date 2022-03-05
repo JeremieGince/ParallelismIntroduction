@@ -6,9 +6,8 @@ from .sensor import Sensor
 
 
 class DewPointSensor(Sensor):
-
-    def __init__(self, sensor_id: int, name="dewPointSensor"):
-        super(DewPointSensor, self).__init__(sensor_id, name)
+    def __init__(self, sensor_id: int, name="dewPointSensor", units='Temperature [${}^\circ F$]'):
+        super(DewPointSensor, self).__init__(sensor_id, name, units=units)
         self.acquisition_time = 0.1
 
     @property
