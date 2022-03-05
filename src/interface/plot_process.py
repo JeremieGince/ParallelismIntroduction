@@ -98,8 +98,3 @@ class PlotProcess(mp.Process):
 		self._close_event.set()
 		super(PlotProcess, self).join(*args, **kwargs)
 
-
-
-
-
-
