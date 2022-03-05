@@ -19,12 +19,18 @@ class DewPointSensor(Sensor):
 	@property
 	def columns_names(self):
 		"""
-		Propriété permettant d'accéder au nom des colonnes qui sont modifiées
-		:return:
+		Propriété permettant d'accéder au nom des colonnes qui sont modifiées dans le log par le SensorLogger qui
+		s'occupe du senseur courant.
+		:return: le nom des colonnes qui sont modifiées par le SensorLogger qui s'occuper du senseur courant.
+		Dans le cas présent, c'est "DewPointLowF", "DewPointHighF", "DewPointAvgF".
 		"""
 		return ["DewPointLowF", "DewPointHighF", "DewPointAvgF"]
 
 	def read(self):
+		"""
+		Méthode simulant la lecture du capteur courant. On dort un certain temps pour simuler l'acquisition.
+		:return: la valeur du senseur courant
+		"""
 		time.sleep(self.acquisition_time)
 		cols = self.columns_names
 		data = pd.read_csv(Sensor.rawData, index_col="Date")
