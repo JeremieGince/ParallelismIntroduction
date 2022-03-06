@@ -1,4 +1,9 @@
-# Introduction au parallélisme
+Introduction au parallélisme
+============================
+
+<p align="center"> <img src="https://github.com/JeremieGince/ParallelismIntroduction/blob/main/images/0011187_hobo-advanced-weather-station-kit_510.png?raw=true"> </p>
+
+---------------------------------------------------------------------------
 
 Dans le cadre de cet exercice vous aurez à faire un mini-projet impliquant à la fois du multiprocessing et du 
 multithreading. 
@@ -81,7 +86,9 @@ méthodes qui lancent ce type d'erreur.
 La solution est fournie dans le dossier './solution'.
 
 
+---------------------------------------------------------------------------
 
+<p align="center"> <img src="https://github.com/JeremieGince/ParallelismIntroduction/blob/main/images/progfest_logo.png?raw=true"> </p>
 
 
 
