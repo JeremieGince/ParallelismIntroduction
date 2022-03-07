@@ -40,7 +40,7 @@ class SensorLogger(Thread):
 		Méthode statique qui permet d'accéder au fichier où est stocké les informations obtenues par les senseurs.
 		:return: Le chemin pour accéder au fichier de stockage.
 		"""
-		return f"{SensorLogger.sensors_data_folder}/{SensorLogger.sensors_data_filename}"
+		return f"{os.getcwd()}/{SensorLogger.sensors_data_folder}/{SensorLogger.sensors_data_filename}"
 
 	def set_date(self, date):
 		"""
@@ -69,6 +69,7 @@ class SensorLogger(Thread):
 			if os.path.exists(SensorLogger.get_data_filename()):
 				df = pd.read_csv(SensorLogger.get_data_filename())
 			else:
+				os.makedirs(self.sensors_data_folder, exist_ok=True)
 				fill = [self._date] + [np.nan] * len(self._sensor.columns_names)
 				df = pd.DataFrame([fill], columns=["Date", *self._sensor.columns_names])
 
