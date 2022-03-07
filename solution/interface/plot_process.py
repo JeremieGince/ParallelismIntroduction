@@ -5,6 +5,7 @@ from typing import List, Union
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
 
 from solution.sensors.sensor import Sensor
@@ -45,6 +46,7 @@ class PlotProcess(mp.Process):
 		self.sensor_to_ax = {}
 		self.sensor_to_lines = {}
 		self._dates = None
+		mpl.use("TkAgg")
 
 	def run(self):
 		"""
@@ -80,6 +82,7 @@ class PlotProcess(mp.Process):
 		ncols = int(np.sqrt(len(self._sensors)))
 		nrows = int(len(self._sensors) / ncols)
 		figure, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(12, 7))
+		figure.canvas.manager.window.wm_geometry("+%d+%d" % (0, 0))
 		# figure.canvas.manager.full_screen_toggle()  # uncomment to put the figure in full_screen
 		axes = np.ravel(axes)
 		with self._lock:
