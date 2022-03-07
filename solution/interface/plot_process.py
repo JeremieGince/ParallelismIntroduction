@@ -7,7 +7,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.sensors.sensor import Sensor
+from solution.sensors.sensor import Sensor
 
 
 class PlotProcess(mp.Process):
